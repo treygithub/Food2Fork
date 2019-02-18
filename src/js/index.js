@@ -1,8 +1,19 @@
-let key = '823332940e6a670d0eb4500f637c1d20'
+import Search from "./models/Search";
+import * as searchView from './views/SearchView';
+import { DomElements } from './views/Base';
 
-https://www.food2fork.com/api/search
+const state = {};
 
-
-async function myFn(){
-    
+const controlSearch = async () => {
+    const query = searchView.getInput();
+    if(query){
+        state.search = new Search(query);
+        await state.search.fetchRequest();
+        console.log(state.search.result);
+    }
 }
+
+DomElements.searchForm.addEventListener('submit',e => {
+    e.preventDefault();
+    controlSearch();
+})
